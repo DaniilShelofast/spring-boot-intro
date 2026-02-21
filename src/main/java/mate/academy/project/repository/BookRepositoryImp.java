@@ -1,13 +1,13 @@
 package mate.academy.project.repository;
 
-import mate.academy.project.model.Book;
 import jakarta.persistence.criteria.CriteriaQuery;
+import java.util.List;
+import mate.academy.project.model.Book;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import java.util.List;
 
 @Repository
 public class BookRepositoryImp implements BookRepository {

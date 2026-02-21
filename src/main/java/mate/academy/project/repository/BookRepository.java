@@ -1,9 +1,10 @@
 package mate.academy.project.repository;
 
-import mate.academy.project.model.Book;
 import java.util.List;
+import mate.academy.project.model.Book;
 
 public interface BookRepository {
     Book save(Book book);
+
     List<Book> findAll();
 }
