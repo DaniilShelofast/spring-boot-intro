@@ -28,9 +28,6 @@
     </scm>
     <properties>
         <maven.checkstyle.plugin.configLocation>checkstyle.xml</maven.checkstyle.plugin.configLocation>
-        <maven.checkstyle.plugin.configLocation>
-            https://raw.githubusercontent.com/mate-academy/style-guides/master/java/checkstyle.xml
-        </maven.checkstyle.plugin.configLocation>
         <java.version>17</java.version>
     </properties>
     <dependencies>
