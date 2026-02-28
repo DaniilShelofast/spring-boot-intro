@@ -2,6 +2,7 @@ package mate.academy.project.repository;
 
 import jakarta.persistence.criteria.CriteriaQuery;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import mate.academy.project.exception.EntityNotFoundException;
 import mate.academy.project.model.Book;
@@ -38,9 +39,9 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public Book getBookById(Long id) {
+    public Optional<Book> getBookById(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            return session.get(Book.class, id);
+            return Optional.ofNullable(session.get(Book.class, id));
         } catch (RuntimeException e) {
             throw new EntityNotFoundException("Can't get book by id" + id);
         }

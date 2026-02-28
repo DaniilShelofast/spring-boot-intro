@@ -1,6 +1,7 @@
 package mate.academy.project.repository;
 
 import java.util.List;
+import java.util.Optional;
 import mate.academy.project.model.Book;
 
 public interface BookRepository {
@@ -8,5 +9,5 @@ public interface BookRepository {
 
     List<Book> findAll();
 
-    Book getBookById(Long id);
+    Optional<Book> getBookById(Long id);
 }

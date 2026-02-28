@@ -1,6 +1,7 @@
 package mate.academy.project.controller;
 
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import mate.academy.project.dto.BookDto;
 import mate.academy.project.dto.CreateBookRequestDto;
@@ -27,7 +28,7 @@ public class BookController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public BookDto getBookById(@PathVariable Long id) {
+    public Optional<BookDto> getBookById(@PathVariable Long id) {
         return bookService.getBookById(id);
     }
 
