@@ -16,8 +16,8 @@ import org.hibernate.annotations.SQLRestriction;
 @Entity
 @Getter
 @Setter
-@SQLDelete(sql = "UPDATE books SET is_delete = true WHERE id = ?")
-@SQLRestriction("is_delete = false")
+@SQLDelete(sql = "UPDATE books SET is_deleted = true WHERE id = ?")
+@SQLRestriction("is_deleted = false")
 @Table(name = "books")
 public class Book {
     @Id
@@ -35,5 +35,5 @@ public class Book {
     private String description;
     private String coverImage;
     @Column(nullable = false, columnDefinition = "TINYINT(1)")
-    private boolean isDelete = false;
+    private boolean isDeleted = false;
 }
