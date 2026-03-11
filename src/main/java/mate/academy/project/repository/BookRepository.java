@@ -1,13 +1,9 @@
 package mate.academy.project.repository;
 
-import java.util.List;
-import java.util.Optional;
 import mate.academy.project.model.Book;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface BookRepository {
-    Book save(Book book);
-
-    List<Book> findAll();
-
-    Optional<Book> getBookById(Long id);
+public interface BookRepository extends JpaRepository<Book, Long>,
+        JpaSpecificationExecutor<Book> {
 }
