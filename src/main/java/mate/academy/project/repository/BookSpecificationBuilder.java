@@ -1,6 +1,5 @@
 package mate.academy.project.repository;
 
-import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import mate.academy.project.dto.BookSearchParametersDto;
 import mate.academy.project.model.Book;
