@@ -1,7 +1,7 @@
 databaseChangeLog:
     - changeSet:
         id: add-not-null-constraint-to-books
-        author: mateacademy
+        author: Danyil
         changes:
           - addNotNullConstraint:
                 tableName: books
