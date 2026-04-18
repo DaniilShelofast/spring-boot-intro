@@ -1,4 +1,4 @@
-package mate.academy.project.service;
+package mate.academy.project.service.impl;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +11,7 @@ import mate.academy.project.mapper.BookMapper;
 import mate.academy.project.model.Book;
 import mate.academy.project.repository.BookRepository;
 import mate.academy.project.repository.SpecificationBuilder;
+import mate.academy.project.service.BookService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
