@@ -6,7 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,15 +17,13 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
-    @NotNull
+    @Column(nullable = false)
     private String password;
-    @NotNull
+    @Column(nullable = false)
     private String firstName;
-    @NotNull
+    @Column(nullable = false)
     private String lastName;
-    @NotNull
     private String shippingAddress;
 }

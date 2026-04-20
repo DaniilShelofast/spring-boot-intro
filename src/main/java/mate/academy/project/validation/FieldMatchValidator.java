@@ -2,11 +2,11 @@ package mate.academy.project.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import mate.academy.project.dto.user.PasswordDto;
+import mate.academy.project.dto.user.UserRegistrationDto;
 
-public class FieldMatchValidator implements ConstraintValidator<FieldMatch, PasswordDto> {
+public class FieldMatchValidator implements ConstraintValidator<FieldMatch, UserRegistrationDto> {
     @Override
-    public boolean isValid(PasswordDto password, ConstraintValidatorContext context) {
+    public boolean isValid(UserRegistrationDto password, ConstraintValidatorContext context) {
         return password.getPassword().equals(password.getRepeatPassword());
     }
 }
