@@ -1,4 +1,4 @@
-package mate.academy.project.repository;
+package mate.academy.project.repository.pattern;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
