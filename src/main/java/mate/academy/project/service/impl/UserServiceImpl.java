@@ -4,6 +4,7 @@ import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import mate.academy.project.dto.user.UserDto;
 import mate.academy.project.dto.user.UserRegistrationDto;
+import mate.academy.project.exception.EntityNotFoundException;
 import mate.academy.project.exception.RegistrationException;
 import mate.academy.project.mapper.UserMapper;
 import mate.academy.project.model.Role;
@@ -25,13 +26,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto register(UserRegistrationDto request) throws RegistrationException {
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+        if (userRepository.existsByEmail(request.getEmail())) {
             throw new RegistrationException("User with this email already exists " + request);
         }
         User user = userMapper.toModel(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         Role role = roleRepository.findByRoleName(RoleName.ROLE_USER)
-                .orElseThrow(() -> new RuntimeException("Role not found"));
+                .orElseThrow(() -> new EntityNotFoundException("RoleName.ROLE_USER not found"));
         user.setRoles(Set.of(role));
         userRepository.save(user);
         return userMapper.toDto(user);
