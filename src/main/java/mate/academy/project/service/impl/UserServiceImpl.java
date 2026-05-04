@@ -1,7 +1,6 @@
 package mate.academy.project.service.impl;
 
 import java.util.Set;
-
 import lombok.RequiredArgsConstructor;
 import mate.academy.project.dto.user.UserDto;
 import mate.academy.project.dto.user.UserRegistrationDto;
