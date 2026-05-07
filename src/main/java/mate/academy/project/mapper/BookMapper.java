@@ -1,9 +1,9 @@
 package mate.academy.project.mapper;
 
 import mate.academy.project.config.MapperConfig;
-import mate.academy.project.dto.BookDto;
-import mate.academy.project.dto.CreateBookRequestDto;
-import mate.academy.project.dto.UpdateBookRequestDto;
+import mate.academy.project.dto.book.BookDto;
+import mate.academy.project.dto.book.CreateBookRequestDto;
+import mate.academy.project.dto.book.UpdateBookRequestDto;
 import mate.academy.project.model.Book;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;

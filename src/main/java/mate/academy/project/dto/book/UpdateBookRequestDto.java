@@ -1,11 +1,10 @@
-package mate.academy.project.dto;
+package mate.academy.project.dto.book;
 
 import java.math.BigDecimal;
 import lombok.Data;
 
 @Data
-public class BookDto {
-    private Long id;
+public class UpdateBookRequestDto {
     private String title;
     private String author;
     private String isbn;
