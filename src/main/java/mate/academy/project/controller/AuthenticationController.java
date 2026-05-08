@@ -5,8 +5,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mate.academy.project.dto.user.UserDto;
-import mate.academy.project.dto.user.UserLoginDto;
-import mate.academy.project.dto.user.UserLoginJwtDto;
+import mate.academy.project.dto.user.UserLoginRequestDto;
+import mate.academy.project.dto.user.UserLoginResponseDto;
 import mate.academy.project.dto.user.UserRegistrationDto;
 import mate.academy.project.exception.RegistrationException;
 import mate.academy.project.security.AuthenticationService;
@@ -31,9 +31,9 @@ public class AuthenticationController {
         return userService.register(request);
     }
 
-    @PostMapping("/authorization")
+    @PostMapping("/login")
     @Operation(summary = "login", description = "user authorization")
-    public UserLoginJwtDto login(@RequestBody UserLoginDto request) {
+    public UserLoginResponseDto login(@RequestBody @Valid UserLoginRequestDto request) {
         return authenticationService.authenticate(request);
     }
 }

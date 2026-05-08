@@ -1,8 +1,8 @@
 package mate.academy.project.security;
 
 import lombok.RequiredArgsConstructor;
-import mate.academy.project.dto.user.UserLoginDto;
-import mate.academy.project.dto.user.UserLoginJwtDto;
+import mate.academy.project.dto.user.UserLoginRequestDto;
+import mate.academy.project.dto.user.UserLoginResponseDto;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,11 +14,11 @@ public class AuthenticationService {
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
 
-    public UserLoginJwtDto authenticate(UserLoginDto request) {
+    public UserLoginResponseDto authenticate(UserLoginRequestDto request) {
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
         String token = jwtUtil.generateToken(authentication.getName());
-        return new UserLoginJwtDto(token);
+        return new UserLoginResponseDto(token);
     }
 }

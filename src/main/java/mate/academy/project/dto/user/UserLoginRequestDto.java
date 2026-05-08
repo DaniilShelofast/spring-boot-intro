@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class UserLoginDto {
+public class UserLoginRequestDto {
     @NotBlank
     @Email
     @Size(min = 8, max = 20)
