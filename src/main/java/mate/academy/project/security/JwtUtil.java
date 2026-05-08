@@ -1,7 +1,6 @@
 package mate.academy.project.security;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -34,26 +33,27 @@ public class JwtUtil {
 
     public boolean isValidToken(String token) {
         try {
-            Jws<Claims> claimsJws = Jwts.parser()
-                    .verifyWith(secret)
-                    .build()
-                    .parseSignedClaims(token);
-            return !claimsJws.getPayload().getExpiration().before(new Date());
+            getAllClaims(token);
+            return true;
         } catch (JwtException | IllegalArgumentException e) {
-            throw new JwtException("Expired or invalid JWT token");
+            return false;
         }
     }
 
-    public String getUsername(String token) {
-        return getClaimFromToken(token, Claims::getSubject);
+    public <T> T getClaim(String token, Function<Claims, T> claimsResolver) {
+        Claims claims = getAllClaims(token);
+        return claimsResolver.apply(claims);
     }
 
-    private <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = Jwts.parser()
+    public String getUsername(String token) {
+        return getClaim(token, Claims::getSubject);
+    }
+
+    private Claims getAllClaims(String token) {
+        return Jwts.parser()
                 .verifyWith(secret)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
-        return claimsResolver.apply(claims);
     }
 }
