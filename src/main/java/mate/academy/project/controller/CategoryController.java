@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import mate.academy.project.dto.book.BookDto;
+import mate.academy.project.dto.book.BookDtoWithoutCategoryIds;
 import mate.academy.project.dto.category.CategoryDto;
 import mate.academy.project.dto.category.CreateCategoryDto;
 import mate.academy.project.service.BookService;
@@ -60,7 +60,7 @@ public class CategoryController {
     @Operation(summary = "Update category by id",
             description = "Update a category by their unique ID")
     public CategoryDto updateCategory(@PathVariable Long id,
-                                      @RequestBody CreateCategoryDto createDto) {
+                                      @RequestBody @Valid CreateCategoryDto createDto) {
         return categoryService.update(id, createDto);
     }
 
@@ -78,7 +78,7 @@ public class CategoryController {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @Operation(summary = "Get books by category id",
             description = "Get a list of all books by id category")
-    public List<BookDto> getBooksByCategoryId(@PathVariable Long id) {
+    public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(@PathVariable Long id) {
         return bookService.findAllByCategoryId(id);
     }
 }

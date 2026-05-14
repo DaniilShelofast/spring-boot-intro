@@ -40,16 +40,16 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Page<BookDtoWithoutCategoryIds> findAll(Pageable pageable) {
+    public Page<BookDto> findAll(Pageable pageable) {
         return bookRepository.findAll(pageable)
-                .map(bookMapper::toDtoWithoutCategories);
+                .map(bookMapper::toDto);
     }
 
     @Override
-    public BookDtoWithoutCategoryIds getBookById(Long id) {
+    public BookDto getBookById(Long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Can't get book by id" + id));
-        return bookMapper.toDtoWithoutCategories(book);
+        return bookMapper.toDto(book);
     }
 
     @Override
@@ -79,10 +79,10 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> findAllByCategoryId(Long categoryId) {
+    public List<BookDtoWithoutCategoryIds> findAllByCategoryId(Long categoryId) {
         return bookRepository.findAllByCategoryId(categoryId)
                 .stream()
-                .map(bookMapper::toDto)
+                .map(bookMapper::toDtoWithoutCategories)
                 .toList();
     }
 }
