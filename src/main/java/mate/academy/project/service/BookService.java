@@ -2,6 +2,7 @@ package mate.academy.project.service;
 
 import java.util.List;
 import mate.academy.project.dto.book.BookDto;
+import mate.academy.project.dto.book.BookDtoWithoutCategoryIds;
 import mate.academy.project.dto.book.BookSearchParametersDto;
 import mate.academy.project.dto.book.CreateBookRequestDto;
 import mate.academy.project.dto.book.UpdateBookRequestDto;
@@ -20,4 +21,6 @@ public interface BookService {
     BookDto updateBookById(Long id, UpdateBookRequestDto updateBookRequestDto);
 
     List<BookDto> searchParameters(BookSearchParametersDto bookSearchParametersDto);
+
+    List<BookDtoWithoutCategoryIds> findAllByCategoryId(Long categoryId);
 }

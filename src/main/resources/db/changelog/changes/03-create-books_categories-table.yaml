@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-books_categories-table
+      author: user
+      changes:
+        - createTable:
+            tableName: books_categories
+            columns:
+              - column:
+                  name: book_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: category_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+            constraints:
+              primaryKey: true
+              primaryKeyName: pk_books_categories
+              primaryKeyTablespace: books_categories
+              columnNames: book_id, category_id
