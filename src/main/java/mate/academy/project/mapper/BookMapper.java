@@ -1,6 +1,7 @@
 package mate.academy.project.mapper;
 
 import java.util.List;
+import java.util.Optional;
 import mate.academy.project.config.MapperConfig;
 import mate.academy.project.dto.book.BookDto;
 import mate.academy.project.dto.book.BookDtoWithoutCategoryIds;
@@ -12,6 +13,7 @@ import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
 
 @Mapper(config = MapperConfig.class)
 public interface BookMapper {
@@ -32,5 +34,12 @@ public interface BookMapper {
                 .map(Category::getId)
                 .toList();
         bookDto.setCategoryIds(categories);
+    }
+
+    @Named("bookFromId")
+    default Book bookFromId(Long id) {
+        return Optional.ofNullable(id)
+                .map(Book::new)
+                .orElse(null);
     }
 }
