@@ -47,16 +47,19 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     @Transactional
     public ShoppingCartResponseDto addBookShoppingCart(CartItemRequestDto requestDto) {
-        ShoppingCart shoppingCart = getAuthenticatedUser().getShoppingCart();
+        User user = getAuthenticatedUser();
+        ShoppingCart cart = shoppingCartRepository
+                .findById(user.getShoppingCart().getId())
+                .orElseThrow(() -> new EntityNotFoundException("can't get shopping cart by id"));
         CartItem cartItem = cartItemMapper.toEntity(requestDto);
-        cartItem.setShoppingCart(shoppingCart);
+        cartItem.setShoppingCart(cart);
         Book book = bookRepository.findById(requestDto.getBookId())
                 .orElseThrow(() -> new EntityNotFoundException("book not found"));
         cartItem.setBook(book);
         cartItem.setQuantity(requestDto.getQuantity());
-        shoppingCart.getCartItems().add(cartItem);
-        shoppingCartRepository.save(shoppingCart);
-        return cartMapper.toDto(shoppingCart);
+        cart.getCartItems().add(cartItem);
+        shoppingCartRepository.save(cart);
+        return cartMapper.toDto(cart);
     }
 
     @Override
