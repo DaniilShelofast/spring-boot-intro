@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import mate.academy.project.dto.cart.CartItemDto;
 import mate.academy.project.dto.cart.CartItemRequestDto;
 import mate.academy.project.dto.shopping.ShoppingCartResponseDto;
 import mate.academy.project.dto.shopping.UpdateCartItemRequestDto;
@@ -48,8 +47,8 @@ public class ShoppingCartController {
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PutMapping("/cart-items/{id}")
     @Operation(summary = "update a quantity", description = "update a quantity by their unique id")
-    public CartItemDto updateCartQuantity(@PathVariable Long id,
-                                          @RequestBody UpdateCartItemRequestDto requestDto) {
+    public ShoppingCartResponseDto updateCartQuantity(@PathVariable Long id,
+                                          @RequestBody @Valid UpdateCartItemRequestDto requestDto) {
         return shoppingCartService.updateCartQuantity(id, requestDto);
     }
 

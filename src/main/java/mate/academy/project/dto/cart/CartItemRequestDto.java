@@ -1,12 +1,14 @@
 package mate.academy.project.dto.cart;
 
-import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
 @Data
 public class CartItemRequestDto {
-    @Column(nullable = false)
+    @NotNull
+    @Positive
     private Long bookId;
-    @Column(nullable = false)
+    @Positive
     private int quantity;
 }

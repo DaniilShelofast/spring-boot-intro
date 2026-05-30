@@ -1,10 +1,10 @@
 package mate.academy.project.dto.shopping;
 
-import jakarta.persistence.Column;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
 @Data
 public class UpdateCartItemRequestDto {
-    @Column(nullable = false)
+    @Positive
     private int quantity;
 }
