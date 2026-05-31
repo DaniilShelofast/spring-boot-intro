@@ -57,7 +57,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             cartItem.setQuantity(cartItem.getQuantity()
                     + requestDto.getQuantity());
         } else {
-            CartItem newItem = new CartItem();
+            CartItem newItem = cartItemMapper.toEntity(requestDto);
             newItem.setBook(book);
             newItem.setShoppingCart(cart);
             newItem.setQuantity(requestDto.getQuantity());
