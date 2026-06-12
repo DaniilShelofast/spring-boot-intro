@@ -1,6 +1,7 @@
 package mate.academy.project.service;
 
 import java.util.List;
+import mate.academy.project.dto.item.OrderItemResponseDto;
 import mate.academy.project.dto.order.OrderRequestDto;
 import mate.academy.project.dto.order.OrderResponseDto;
 import mate.academy.project.dto.order.UpdateOrderRequestDto;
@@ -11,4 +12,8 @@ public interface OrderService {
     List<OrderResponseDto> getAllOrders();
 
     OrderResponseDto statusUpdate(Long id, UpdateOrderRequestDto requestDto);
+
+    List<OrderItemResponseDto> getOrderItems(Long orderId);
+
+    OrderItemResponseDto getItem(Long orderId, Long itemId);
 }

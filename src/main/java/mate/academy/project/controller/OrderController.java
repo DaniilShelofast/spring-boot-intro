@@ -9,7 +9,6 @@ import mate.academy.project.dto.item.OrderItemResponseDto;
 import mate.academy.project.dto.order.OrderRequestDto;
 import mate.academy.project.dto.order.OrderResponseDto;
 import mate.academy.project.dto.order.UpdateOrderRequestDto;
-import mate.academy.project.service.OrderItemService;
 import mate.academy.project.service.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/orders")
 public class OrderController {
     private final OrderService orderService;
-    private final OrderItemService orderItemService;
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping
@@ -49,7 +47,7 @@ public class OrderController {
     @PutMapping("/{id}")
     @Operation(summary = "Update status by id", description = "Update a status by their unique ID")
     public OrderResponseDto statusUpdate(@PathVariable Long id,
-                                         @RequestBody UpdateOrderRequestDto requestDto) {
+                                         @RequestBody @Valid UpdateOrderRequestDto requestDto) {
         return orderService.statusUpdate(id, requestDto);
     }
 
@@ -57,13 +55,13 @@ public class OrderController {
     @GetMapping("/{orderId}/order-items/{itemId}")
     @Operation(summary = "Get item by id", description = "Get item and order by their unique ID")
     public OrderItemResponseDto getItem(@PathVariable Long itemId, @PathVariable Long orderId) {
-        return orderItemService.getItem(itemId, orderId);
+        return orderService.getItem(itemId, orderId);
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping("/{orderId}/order-items")
     @Operation(summary = "Get all order items", description = "get all order items")
     public List<OrderItemResponseDto> getOrderItems(@PathVariable Long orderId) {
-        return orderItemService.getOrderItems(orderId);
+        return orderService.getOrderItems(orderId);
     }
 }

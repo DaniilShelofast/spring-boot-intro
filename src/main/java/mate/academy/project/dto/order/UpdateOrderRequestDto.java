@@ -1,10 +1,10 @@
 package mate.academy.project.dto.order;
 
-import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public class UpdateOrderRequestDto {
-    @Column(nullable = false)
+    @NotBlank
     private String status;
 }

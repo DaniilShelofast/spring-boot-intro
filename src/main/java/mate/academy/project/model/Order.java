@@ -13,7 +13,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -39,7 +38,6 @@ public class Order {
     @Column(nullable = false)
     private Status status;
     @Column(nullable = false)
-    @Positive
     private BigDecimal total;
     @Column(nullable = false)
     private LocalDateTime orderDate;
