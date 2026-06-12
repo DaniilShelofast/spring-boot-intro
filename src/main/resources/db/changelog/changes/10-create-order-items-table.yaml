@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: create-cart-items-table
+      id: create-order-items-table
       author: user
       changes:
         - createTable:
-            tableName: cart_items
+            tableName: order_items
             columns:
               - column:
                   name: id
@@ -14,7 +14,7 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: shopping_cart_id
+                  name: order_id
                   type: bigint
                   constraints:
                     nullable: false
@@ -22,23 +22,35 @@ databaseChangeLog:
                   name: book_id
                   type: bigint
                   constraints:
-                     nullable: false
+                    nullable: false
               - column:
                   name: quantity
                   type: int
                   constraints:
                     nullable: false
+              - column:
+                  name: price
+                  type: numeric
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_deleted
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
 
         - addForeignKeyConstraint:
-            baseColumnNames: shopping_cart_id
-            baseTableName: cart_items
-            constraintName: fk_cart_items_shopping_cart
+            baseColumnNames: order_id
+            baseTableName: order_items
+            constraintName: fk_order_items_order
             referencedColumnNames: id
-            referencedTableName: shopping_carts
+            referencedTableName: orders
 
         - addForeignKeyConstraint:
             baseColumnNames: book_id
-            baseTableName: cart_items
-            constraintName: fk_cart_items_book
+            baseTableName: order_items
+            constraintName: fk_order_items_book
             referencedColumnNames: id
             referencedTableName: books
