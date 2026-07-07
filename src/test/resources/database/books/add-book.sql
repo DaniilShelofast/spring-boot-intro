@@ -1,0 +1,1 @@
+insert into books (id, title, author, isbn, price, description, cover_image, is_deleted) values (1, 'Kobzar', 'Taras Shevchenko', '978-966-03-8025-7', 49.95, 'A collection of poetic works by Taras Shevchenko.', 'images/kobzar.jpg', false);

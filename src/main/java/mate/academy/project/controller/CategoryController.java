@@ -49,7 +49,6 @@ public class CategoryController {
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.NOT_FOUND)
     @Operation(summary = "Get category by id", description = "Get a category by their unique ID")
     public CategoryDto getCategoryById(@PathVariable Long id) {
         return categoryService.getById(id);
