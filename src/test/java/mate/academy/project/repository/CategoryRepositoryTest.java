@@ -9,7 +9,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -25,10 +24,12 @@ public class CategoryRepositoryTest {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    private static final Long FICTION_CATEGORY_ID = 1L;
     @Test
     void findById_activeCategory_returnsCategory() {
-        Optional<Category> actual = categoryRepository.findById(1L);
-        assertTrue(actual.isPresent(), "Category with ID 1L should exist in DB");
+        Optional<Category> actual = categoryRepository.findById(FICTION_CATEGORY_ID);
+        assertTrue(actual.isPresent(), "Category with ID"
+                + FICTION_CATEGORY_ID + " should exist in DB");
         assertEquals("Fiction", actual.get().getName());
     }
 }

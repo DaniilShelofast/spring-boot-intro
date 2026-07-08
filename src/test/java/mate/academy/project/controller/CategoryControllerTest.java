@@ -16,7 +16,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
@@ -25,6 +24,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -47,16 +47,28 @@ public class CategoryControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    private static final Integer ZERO = 0;
+    private static final Integer ONE = 1;
+    private static final Integer SIZE = 2;
+    private static final Integer TEN = 10;
+    private static final Long FIRST_CATEGORY_ID = 1L;
+    private static final Long SECOND_CATEGORY_ID = 2L;
+    private static final String FIRST_PARAM_NAME = "Fiction";
+    private static final String SECOND_PARAM_NAME = "History";
+    private static final String PARAM_NAME_UPDATE = "Adventure";
+    private static final String FIRST_PARAM_DESCRIPTION =
+            "Classic and modern fictional literature";
+    private static final String SECOND_PARAM_DESCRIPTION = "Historical literature";
+
     @Test
     @DisplayName("Verify createCategory() method works")
     void createCategory_ValidDto_ReturnsCreatedDto() throws Exception {
         CreateCategoryDto requestDto = new CreateCategoryDto()
-                .setName("Fiction")
-                .setDescription("Classic and modern fictional literature");
+                .setName(FIRST_PARAM_NAME)
+                .setDescription(FIRST_PARAM_DESCRIPTION);
 
         CategoryDto extended = new CategoryDto()
-                .setId(1L)
+                .setId(FIRST_CATEGORY_ID)
                 .setName(requestDto.getName())
                 .setDescription(requestDto.getDescription());
         when(categoryService.save(requestDto)).thenReturn(extended);
@@ -65,26 +77,25 @@ public class CategoryControllerTest {
                         post("/categories")
                                 .content(jsonRequest)
                                 .contentType(MediaType.APPLICATION_JSON)
+                                .with(user("admin").roles("ADMIN"))
                                 .with(csrf())
                 ).andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.name").value("Fiction"))
-                .andExpect(jsonPath("$.description").value(
-                        "Classic and modern fictional literature"));
+                .andExpect(jsonPath("$.id").value(FIRST_CATEGORY_ID))
+                .andExpect(jsonPath("$.name").value(FIRST_PARAM_NAME))
+                .andExpect(jsonPath("$.description").value(FIRST_PARAM_DESCRIPTION));
     }
 
-    @WithMockUser(username = "user")
     @Test
     @DisplayName("Verify getAll() method works")
     void getAll_ValidPageable_ReturnsDtoPage() throws Exception {
         List<CategoryDto> categories = List.of(
-                new CategoryDto().setId(1L).setName("Fiction")
-                        .setDescription("Classic and modern fictional literature"),
-                new CategoryDto().setId(2L).setName("History")
-                        .setDescription("Historical literature")
+                new CategoryDto().setId(FIRST_CATEGORY_ID).setName(FIRST_PARAM_NAME)
+                        .setDescription(FIRST_PARAM_DESCRIPTION),
+                new CategoryDto().setId(SECOND_CATEGORY_ID).setName(SECOND_PARAM_NAME)
+                        .setDescription(SECOND_PARAM_DESCRIPTION)
         );
 
-        Pageable pageable = PageRequest.of(0, 10);
+        Pageable pageable = PageRequest.of(ZERO, TEN);
         Page<CategoryDto> categoryPage = new PageImpl<>(categories, pageable, categories.size());
         when(categoryService.findAll(pageable)).thenReturn(categoryPage);
         mockMvc.perform(
@@ -92,64 +103,64 @@ public class CategoryControllerTest {
                                 .param("page", "0")
                                 .param("size", "10")
                                 .contentType(MediaType.APPLICATION_JSON)
+                                .with(user("user").roles("USER"))
                 ).andExpect(status().isOk())
-                .andExpect(jsonPath("$.content", hasSize(2)))
+                .andExpect(jsonPath("$.content", hasSize(SIZE)))
 
-                .andExpect(jsonPath("$.content[0].id").value(1L))
-                .andExpect(jsonPath("$.content[0].name").value("Fiction"))
-                .andExpect(jsonPath("$.content[0].description")
-                        .value("Classic and modern fictional literature"))
+                .andExpect(jsonPath("$.content[0].id").value(FIRST_CATEGORY_ID))
+                .andExpect(jsonPath("$.content[0].name").value(FIRST_PARAM_NAME))
+                .andExpect(jsonPath("$.content[0].description").value(FIRST_PARAM_DESCRIPTION))
 
-                .andExpect(jsonPath("$.content[1].id").value(2L))
-                .andExpect(jsonPath("$.content[1].name").value("History"))
-                .andExpect(jsonPath("$.content[1].description").value("Historical literature"));
+                .andExpect(jsonPath("$.content[1].id").value(SECOND_CATEGORY_ID))
+                .andExpect(jsonPath("$.content[1].name").value(SECOND_PARAM_NAME))
+                .andExpect(jsonPath("$.content[1].description").value(SECOND_PARAM_DESCRIPTION));
     }
 
-    @WithMockUser(username = "user")
     @Test
     @DisplayName("Verify getCategoryById() method works")
     void getCategoryById_ValidId_ReturnsDto() throws Exception {
-        Long categoryId = 1L;
         CategoryDto expected = new CategoryDto()
-                .setId(categoryId)
-                .setName("Fiction");
-        when(categoryService.getById(categoryId)).thenReturn(expected);
+                .setId(FIRST_CATEGORY_ID)
+                .setName(FIRST_PARAM_NAME);
+        when(categoryService.getById(FIRST_CATEGORY_ID)).thenReturn(expected);
         mockMvc.perform(
-                        get("/categories/" + categoryId)
+                        get("/categories/" + FIRST_CATEGORY_ID)
                                 .contentType(MediaType.APPLICATION_JSON)
+                                .with(user("user").roles("USER"))
                 ).andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(categoryId))
-                .andExpect(jsonPath("$.name").value("Fiction"));
+                .andExpect(jsonPath("$.id").value(FIRST_CATEGORY_ID))
+                .andExpect(jsonPath("$.name").value(FIRST_PARAM_NAME));
     }
 
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
     @Test
     @DisplayName("Verify updateCategory() method works")
     void updateCategory_ValidIdAndDto_ReturnsUpdatedDto() throws Exception {
-        Long categoryId = 1L;
         CreateCategoryDto request = new CreateCategoryDto()
-                .setName("Adventure");
+                .setName(PARAM_NAME_UPDATE);
         CategoryDto categoryDto = new CategoryDto()
-                .setId(categoryId)
+                .setId(FIRST_CATEGORY_ID)
                 .setName(request.getName());
-        when(categoryService.update(categoryId, request)).thenReturn(categoryDto);
+        when(categoryService.update(FIRST_CATEGORY_ID, request)).thenReturn(categoryDto);
         String jsonRequest = objectMapper.writeValueAsString(request);
-        mockMvc.perform(put("/categories/" + categoryId).content(jsonRequest).contentType(MediaType.APPLICATION_JSON).with(csrf()))
+        mockMvc.perform(put("/categories/" + FIRST_CATEGORY_ID)
+                        .content(jsonRequest)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(user("admin").roles("ADMIN"))
+                        .with(csrf()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(categoryId))
-                .andExpect(jsonPath("$.name").value("Adventure"));
+                .andExpect(jsonPath("$.id").value(FIRST_CATEGORY_ID))
+                .andExpect(jsonPath("$.name").value(PARAM_NAME_UPDATE));
     }
 
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
     @Test
     @DisplayName("Verify deleteCategory() method works")
     void deleteCategory_ValidId_ExecutesSuccessfully() throws Exception {
-        Long categoryId = 1L;
         mockMvc.perform(
-                        delete("/categories/" + categoryId)
+                        delete("/categories/" + FIRST_CATEGORY_ID)
+                                .with(user("admin").roles("ADMIN"))
                                 .with(csrf())
                 )
                 .andExpect(status().isNoContent());
-        verify(categoryService, times(1)).deleteById(categoryId);
+        verify(categoryService, times(ONE)).deleteById(FIRST_CATEGORY_ID);
     }
 }

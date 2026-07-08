@@ -45,23 +45,41 @@ public class BookServiceTest {
     private BookDto bookDto;
     private Category category;
 
+    private static final Long BOOK_ID = 1L;
+    private static final Long CATEGORY_ID = 1L;
+    private static final String BOOK_TITLE = "Kobzar";
+    private static final String BOOK_AUTHOR = "Taras Shevchenko";
+    private static final String BOOK_ISBN = "978-966-03-8025-7";
+    private static final BigDecimal BOOK_PRICE = BigDecimal.valueOf(150);
+    private static final String BOOK_DESC
+            = "A collection of poetic works by Taras Shevchenko.";
+    private static final String BOOK_IMAGE = "images/kobzar.jpg";
+    private static final String CATEGORY_NAME_FICTION = "Fiction";
+    private static final String CATEGORY_DESC_FICTION = "Fiction literature";
+    private static final String UPDATE_TITLE = "Test";
+    private static final BigDecimal UPDATE_PRICE = BigDecimal.valueOf(200.00);
+    private static final Integer ZERO = 0;
+    private static final Integer ONE = 1;
+    private static final Integer TEN = 10;
+
     @BeforeEach
     void setUp() {
         requestDto = new CreateBookRequestDto()
-                .setTitle("Kobzar")
-                .setAuthor("Taras Shevchenko")
-                .setIsbn("978-966-03-8025-7")
-                .setPrice(BigDecimal.valueOf(150))
-                .setDescription("A collection of poetic works by Taras Shevchenko.")
-                .setCoverImage("images/kobzar.jpg")
-                .setCategoryIds(List.of(1L));
+                .setTitle(BOOK_TITLE)
+                .setAuthor(BOOK_AUTHOR)
+                .setIsbn(BOOK_ISBN)
+                .setPrice(BOOK_PRICE)
+                .setDescription(BOOK_DESC)
+                .setCoverImage(BOOK_IMAGE)
+                .setCategoryIds(List.of(CATEGORY_ID));
 
         category = new Category();
-        category.setId(1L);
-        category.setName("Fiction");
-        category.setDescription("Fiction literature");
+        category.setId(BOOK_ID);
+        category.setName(CATEGORY_NAME_FICTION);
+        category.setDescription(CATEGORY_DESC_FICTION);
 
         book = new Book();
+        book.setId(BOOK_ID);
         book.setTitle(requestDto.getTitle());
         book.setAuthor(requestDto.getAuthor());
         book.setIsbn(requestDto.getIsbn());
@@ -71,14 +89,14 @@ public class BookServiceTest {
         book.setCategories(Set.of(category));
 
         bookDto = new BookDto()
-                .setId(1L)
+                .setId(book.getId())
                 .setTitle(book.getTitle())
                 .setAuthor(book.getAuthor())
                 .setIsbn(book.getIsbn())
                 .setPrice(book.getPrice())
                 .setDescription(book.getDescription())
                 .setCoverImage(book.getCoverImage())
-                .setCategoryIds(List.of(1L));
+                .setCategoryIds(List.of(CATEGORY_ID));
     }
 
     @Test
@@ -92,13 +110,13 @@ public class BookServiceTest {
 
         BookDto actual = bookService.save(requestDto);
         assertThat(actual).isEqualTo(bookDto);
-        verify(bookRepository, times(1)).save(book);
+        verify(bookRepository, times(ONE)).save(book);
     }
 
     @Test
     @DisplayName("Verify findAll() method works")
     void findAll_ValidPageable_ReturnsDtoList() {
-        Pageable pageable = PageRequest.of(0, 10);
+        Pageable pageable = PageRequest.of(ZERO, TEN);
         List<Book> books = List.of(book);
         Page<Book> bookPage = new PageImpl<>(books, pageable, books.size());
 
@@ -106,51 +124,48 @@ public class BookServiceTest {
         when(bookMapper.toDto(book)).thenReturn(bookDto);
 
         Page<BookDto> actual = bookService.findAll(pageable);
-        assertThat(actual.getContent()).hasSize(1);
-        assertThat(actual.getContent().get(0)).isEqualTo(bookDto);
+        assertThat(actual.getContent()).hasSize(ONE);
+        assertThat(actual.getContent().get(ZERO)).isEqualTo(bookDto);
     }
 
     @Test
     @DisplayName("Verify getById() method works")
     void findById_ExistingId_ReturnsDto() {
-        Long bookId = 1L;
-        book.setId(bookId);
-        when(bookRepository.findById(bookId)).thenReturn(Optional.of(book));
+        when(bookRepository.findById(BOOK_ID)).thenReturn(Optional.of(book));
         when(bookMapper.toDto(book)).thenReturn(bookDto);
 
-        BookDto actual = bookService.getBookById(bookId);
+        BookDto actual = bookService.getBookById(BOOK_ID);
         assertThat(actual).isEqualTo(bookDto);
     }
 
     @Test
     @DisplayName("Verify update() method works")
     void update_ValidIdAndDto_ReturnsUpdatedDto() {
-        Long bookId = 1L;
-        book.setId(bookId);
         UpdateBookRequestDto updateBookRequestDto = new UpdateBookRequestDto();
-        updateBookRequestDto.setTitle("Test");
-        updateBookRequestDto.setPrice(BigDecimal.valueOf(200.00));
+        updateBookRequestDto.setTitle(UPDATE_TITLE);
+        updateBookRequestDto.setPrice(UPDATE_PRICE);
 
+        book.setId(BOOK_ID);
         book.setTitle(updateBookRequestDto.getTitle());
         book.setPrice(updateBookRequestDto.getPrice());
 
+        bookDto.setId(book.getId());
         bookDto.setTitle(book.getTitle());
         bookDto.setPrice(book.getPrice());
 
-        when(bookRepository.findById(bookId)).thenReturn(Optional.of(book));
+        when(bookRepository.findById(BOOK_ID)).thenReturn(Optional.of(book));
         when(bookRepository.save(book)).thenReturn(book);
         when(bookMapper.toDto(book)).thenReturn(bookDto);
 
-        BookDto actual = bookService.updateBookById(bookId, updateBookRequestDto);
+        BookDto actual = bookService.updateBookById(BOOK_ID, updateBookRequestDto);
         assertThat(actual).isEqualTo(bookDto);
-        verify(bookRepository, times(1)).save(book);
+        verify(bookRepository, times(ONE)).save(book);
     }
 
     @Test
     @DisplayName("Verify deleteById() method works")
     void deleteById_ValidId_ExecutesSuccessfully() {
-        Long bookId = 1L;
-        bookService.deleteById(bookId);
-        verify(bookRepository, times(1)).deleteById(bookId);
+        bookService.deleteById(BOOK_ID);
+        verify(bookRepository, times(ONE)).deleteById(BOOK_ID);
     }
 }

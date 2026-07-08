@@ -32,20 +32,24 @@ public class BookRepositoryTest {
     @Autowired
     private BookRepository bookRepository;
 
+    private static final Integer ZERO = 0;
+    private static final Integer ONE = 1;
+    private static final Long FICTION_CATEGORY_ID = 1L;
+    private static final Long FICTION_BOOK_ID = 1L;
+
     @Test
     void findAllByCategoryId_WhenBooksExist_ReturnsBooks() {
-        Long targetCategoryId = 1L;
-
-        List<Book> books = bookRepository.findAllByCategoryId(targetCategoryId);
+        List<Book> books = bookRepository.findAllByCategoryId(FICTION_CATEGORY_ID);
         assertFalse(books.isEmpty(), "The list of books should not be empty!");
-        assertEquals(1, books.size());
-        assertEquals("Kobzar", books.get(0).getTitle());
+        assertEquals(ONE, books.size());
+        assertEquals("Kobzar", books.get(ZERO).getTitle());
     }
 
     @Test
     void findById_activeBook_returnsBook() {
-        Optional<Book> actual = bookRepository.findById(1L);
-        assertTrue(actual.isPresent(), "Book with ID 1L should exist in DB");
+        Optional<Book> actual = bookRepository.findById(FICTION_BOOK_ID);
+        assertTrue(actual.isPresent(), "Book with ID "
+                + FICTION_BOOK_ID + " should exist in DB");
         assertEquals("Kobzar", actual.get().getTitle());
     }
 }
