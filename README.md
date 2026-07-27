@@ -75,17 +75,6 @@ The system is built on a RESTful architecture and includes the following main co
 > Liquibase managing tables are also present (`databasechangelog` and `databasechangeloglock`). You won't see them in the diagram to avoid complexity.
 
 
-## 📚 API Documentation
-
-### 🌐 Swagger UI
-You can explore and test the API endpoints directly in real-time via our deployed AWS server:
-👉 **[Open Swagger UI Documentation](http://ec2-54-91-101-204.compute-1.amazonaws.com:8080/api/swagger-ui/index.html)**
-
-### 📮 Postman Collection
-You can test the endpoints locally or via the server using our Postman collection:
-👉 **[Open Postman Collection](https://shelofast-daniil-4222799.postman.co/workspace/daniil-shelofast's-Workspace~19968b11-8a4a-406f-8176-183e4eb6f79e/collection/52735073-2eae41e2-6e58-487f-afb0-e542ed49a1df?action=share&creator=52735073)**
-
-
 ## 🚀 How to Clone and Run the Project
 
 Follow these steps to clone the project from GitHub and run it on your local machine:
@@ -121,6 +110,18 @@ Option B: Run Locally via Maven
 mvn clean package
 mvn spring-boot:run
 ```
+
+## 📚 API Documentation
+
+### 🌐 Swagger UI
+You can explore and test the API endpoints directly in real-time via our deployed AWS server:
+👉 **[Open Swagger UI Documentation](http://ec2-54-91-101-204.compute-1.amazonaws.com:8080/api/swagger-ui/index.html)**
+
+### 📮 Postman Collection
+You can test the endpoints locally or via the server using our Postman collection:
+👉 **[Open Postman Collection](https://shelofast-daniil-4222799.postman.co/workspace/daniil-shelofast's-Workspace~19968b11-8a4a-406f-8176-183e4eb6f79e/collection/52735073-2eae41e2-6e58-487f-afb0-e542ed49a1df?action=share&creator=52735073)**
+
+
 
 ## 💡 Recommendations while using
 
